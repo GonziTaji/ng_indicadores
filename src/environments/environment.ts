@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    // Obtener aqui: https://api.cmfchile.cl/documentacion/index.html
+    apiKey: '<API Key>',
 };
 
 /*

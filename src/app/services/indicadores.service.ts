@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { Indicador, IndicadorConfig, RespuestaApi } from '../interfaces/interfaces';
-
-const API_KEY = '033ee42b20cf7762429c799ae5e3bc356f16335c';
+import { IndicadorConfig, RespuestaApi } from '../interfaces/interfaces';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -125,7 +124,7 @@ export class IndicadoresService {
         let url =
             'https://api.cmfchile.cl/api-sbifv3/recursos_api/' +
             `${indicadorId}/${endpointTail}` +
-            `?apikey=${API_KEY}&formato=json`;
+            `?apikey=${environment.apiKey}&formato=json`;
 
         return url;
     }
