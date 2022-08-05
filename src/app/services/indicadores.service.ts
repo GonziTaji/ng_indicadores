@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { Indicador, RespuestaApi } from '../interfaces/interfaces';
+import { Indicador, IndicadorConfig, RespuestaApi } from '../interfaces/interfaces';
 
 const API_KEY = '033ee42b20cf7762429c799ae5e3bc356f16335c';
 
@@ -9,32 +9,39 @@ const API_KEY = '033ee42b20cf7762429c799ae5e3bc356f16335c';
     providedIn: 'root',
 })
 export class IndicadoresService {
-    private readonly configIndicadores = Object.freeze({
+    readonly configIndicadores: { [indicadorId: string]: IndicadorConfig } = Object.freeze({
         dolar: {
+            id: 'dolar',
             nombreCorto: 'dolar',
             nombre: 'Dólar Observado',
         },
         euro: {
+            id: 'euro',
             nombreCorto: 'euro',
             nombre: 'Euro',
         },
         ipc: {
+            id: 'ipc',
             nombreCorto: 'ipc',
             nombre: 'Indice de Precios al Consumidor',
         },
         tip: {
+            id: 'tip',
             nombreCorto: 'tip',
             nombre: 'Tasa de Interés Promedio',
         },
         tmc: {
+            id: 'tmc',
             nombreCorto: 'tmc',
             nombre: 'Tasa de Interés Máxima Convencional',
         },
         uf: {
+            id: 'uf',
             nombreCorto: 'uf',
             nombre: 'Unidad de Fomento',
         },
         utm: {
+            id: 'utm',
             nombreCorto: 'utm',
             nombre: 'Unidad Tributaria Mensual',
         },
@@ -43,26 +50,40 @@ export class IndicadoresService {
     constructor(public http: HttpClient) {}
 
     getConfigIndicador(indicadorId: string) {
-        return (this.configIndicadores as any)[indicadorId];
+        return this.configIndicadores[indicadorId];
     }
 
     async getHistorialIndicador(indicadorId: string) {
+        let response: RespuestaApi;
+
         switch (indicadorId) {
             case 'dolar':
                 const diasAConsultar = 30;
                 const fechaDesde = new Date();
+
                 fechaDesde.setDate(fechaDesde.getDate() - diasAConsultar);
+
                 const year = fechaDesde.getFullYear();
-                const month = fechaDesde.getMonth() + 1;
-                const day = fechaDesde.getDate();
+                const month = addLeadingZeroInNeeded(fechaDesde.getMonth() + 1);
+                const day = addLeadingZeroInNeeded(fechaDesde.getDate());
 
-                const url =
-                    this.getApiUrl(indicadorId) + '/posteriores/' + [year, month, day, diasAConsultar].join('/');
+                const url = this.getApiUrl(indicadorId, 'posteriores/' + [year, month, 'dias', day].join('/'));
 
-                return this.makeHttpGetRequest<RespuestaApi>(url);
+                response = await this.makeHttpGetRequest<RespuestaApi>(url);
+                break;
 
             default:
-                return this.makeHttpGetRequest<RespuestaApi>(this.getApiUrl(indicadorId));
+                response = await this.makeHttpGetRequest<RespuestaApi>(this.getApiUrl(indicadorId));
+                break;
+        }
+
+        return this.extractValues(response).map((diaHistorico) => ({
+            fecha: diaHistorico.Fecha,
+            valor: parseFloat(diaHistorico.Valor),
+        }));
+
+        function addLeadingZeroInNeeded(n: number) {
+            return n > 9 ? n : `0${n}`;
         }
     }
 
@@ -72,7 +93,7 @@ export class IndicadoresService {
             const { nombre, nombreCorto } = indicadorConfig;
             const response = await this.makeHttpGetRequest<RespuestaApi>(this.getApiUrl(indicadorId));
 
-            const dataIndicador = Object.values(response)[0][0];
+            const dataIndicador = this.extractValues(response)[0];
 
             data[indicadorId] = {
                 nombre,
@@ -86,8 +107,11 @@ export class IndicadoresService {
         return data;
     }
 
-    private getApiUrl(indicadorId: string) {
-        let url = 'https://api.cmfchile.cl/api-sbifv3/recursos_api/' + `${indicadorId}?apikey=${API_KEY}&formato=json`;
+    private getApiUrl(indicadorId: string, endpointTail = '') {
+        let url =
+            'https://api.cmfchile.cl/api-sbifv3/recursos_api/' +
+            `${indicadorId}/${endpointTail}` +
+            `?apikey=${API_KEY}&formato=json`;
 
         return url;
     }
@@ -96,5 +120,11 @@ export class IndicadoresService {
         const observableResponse = this.http.get<T>(url);
 
         return lastValueFrom<T>(observableResponse);
+    }
+
+    private extractValues(response: RespuestaApi) {
+        console.log({ response });
+        console.log({ extracted: Object.values(response)[0] });
+        return Object.values(response)[0];
     }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Indicador } from 'src/app/interfaces/interfaces';
+import { Indicador, IndicadorConfig } from 'src/app/interfaces/interfaces';
 
 @Component({
     selector: 'app-item-lista-indicador',
@@ -8,12 +8,10 @@ import { Indicador } from 'src/app/interfaces/interfaces';
 })
 export class ItemListaIndicadorComponent implements OnInit {
     @Input()
-    indicadorData: Indicador = {
-        fecha: new Date(),
+    indicador: IndicadorConfig = {
+        id: '',
         nombre: '',
         nombreCorto: '',
-        valor: '',
-        indicadorId: '',
     };
 
     constructor() {}

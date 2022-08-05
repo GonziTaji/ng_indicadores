@@ -1,9 +1,29 @@
 <div class="sticky-top bg-light shadow-sm py-2 px-3 d-flex justify-content-between">
-    <i class="bi bi-list text-primary"></i>
+    <a routerLink="/">
+        <i class="bi bi-caret-left text-primary"></i>
+    </a>
 
-    Indicadores
+    <div class="text-center">
+        {{ this.indicadorConfig.nombre }} ({{ this.indicadorConfig.nombreCorto | uppercase }})
+        <br />
+        <small>Histórico (Últimos. 30 días)</small>
+    </div>
 
-    <i class="bi bi-search text-primary"></i>
+    <a [routerLink]="['/info', this.indicadorId]">
+        <i class="bi bi-info-circle text-primary p-2"></i>
+    </a>
 </div>
 
-<p>historial-indicador works!</p>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let diaHistorico of this.dataHistorica">
+        <div class="mx-auto d-flex justify-content-between" style="max-width: 500px">
+            <span>
+                {{ diaHistorico.fecha | date: 'shortDate' }}
+            </span>
+
+            <span>
+                {{ diaHistorico.valor | currency }}
+            </span>
+        </div>
+    </li>
+</ul>

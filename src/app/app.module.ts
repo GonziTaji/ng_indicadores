@@ -9,6 +9,7 @@ import { ListaIndicadoresComponent } from './components/lista-indicadores/lista-
 import { ItemListaIndicadorComponent } from './components/item-lista-indicador/item-lista-indicador.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HistorialIndicadorComponent } from './components/historial-indicador/historial-indicador.component';
+import { InfoIndicadorComponent } from './components/info-indicador/info-indicador.component';
 
 @NgModule({
     declarations: [
@@ -16,6 +17,7 @@ import { HistorialIndicadorComponent } from './components/historial-indicador/hi
         ListaIndicadoresComponent,
         ItemListaIndicadorComponent,
         HistorialIndicadorComponent,
+        InfoIndicadorComponent,
     ],
     imports: [
         HttpClientModule,

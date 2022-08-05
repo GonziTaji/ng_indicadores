@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Indicador } from 'src/app/interfaces/interfaces';
+import { IndicadorConfig } from 'src/app/interfaces/interfaces';
 import { IndicadoresService } from 'src/app/services/indicadores.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { IndicadoresService } from 'src/app/services/indicadores.service';
     styleUrls: ['./lista-indicadores.component.scss'],
 })
 export class ListaIndicadoresComponent implements OnInit {
-    dataIndicadores: { [indicadorId: string]: Indicador } = {};
+    dataIndicadores: { [indicadorId: string]: IndicadorConfig } = {};
 
     public get listaIndicadoresId(): string[] {
         return Object.keys(this.dataIndicadores);
@@ -21,6 +21,6 @@ export class ListaIndicadoresComponent implements OnInit {
     }
 
     async getIndicadoresData() {
-        this.dataIndicadores = await this.indicadoresService.getListaIndicadores();
+        this.dataIndicadores = this.indicadoresService.configIndicadores;
     }
 }

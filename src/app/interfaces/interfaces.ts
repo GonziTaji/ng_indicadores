@@ -6,6 +6,17 @@ export interface Indicador {
     indicadorId: string;
 }
 
+export interface IndicadorConfig {
+    id: string;
+    nombreCorto: string;
+    nombre: string;
+}
+
+export interface DiaHistorico {
+    valor: number;
+    fecha: string;
+}
+
 export interface RespuestaApi {
     [nombre: string]: {
         Valor: string;
