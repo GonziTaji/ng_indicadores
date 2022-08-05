@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HistorialIndicadorComponent } from './components/historial-indicador/historial-indicador.component';
 import { InfoIndicadorComponent } from './components/info-indicador/info-indicador.component';
 import { ValorIndicadorComponent } from './components/valor-indicador/valor-indicador.component';
+import { NgChartsModule } from 'ng2-charts';
+import { GraficoIndicadorComponent } from './components/grafico-indicador/grafico-indicador.component';
 
 @NgModule({
     declarations: [
@@ -20,8 +22,9 @@ import { ValorIndicadorComponent } from './components/valor-indicador/valor-indi
         HistorialIndicadorComponent,
         InfoIndicadorComponent,
         ValorIndicadorComponent,
+        GraficoIndicadorComponent,
     ],
-    imports: [HttpClientModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule, NgbModule],
+    imports: [HttpClientModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule, NgbModule, NgChartsModule],
     providers: [HttpClientModule],
     bootstrap: [AppComponent],
 })

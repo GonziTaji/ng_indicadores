@@ -6,7 +6,7 @@
     </a>
 </div>
 
-<div>
+<div class="container px-2">
     <div class="text-center d-flex flex-column justify-content-center">
         <h1 class="pt-4">
             {{ this.indicadorConfig.nombre | uppercase }}
@@ -24,10 +24,19 @@
         <div class="container form-grid">
             <span>Nombre</span>
             <input disabled type="text" [value]="this.indicadorConfig.nombre" />
+
             <span>Fecha</span>
             <input disabled type="text" [value]="this.primerDato.fecha | date: 'yyyy-MM-dd'" />
+
             <span>Unidad de Medida</span>
             <input disabled type="text" [value]="this.indicadorConfig.unidadDeMedida | titlecase" />
         </div>
+
+        <br />
+
+        <app-grafico-indicador
+            [inputData]="this.dataGrafico"
+            [label]="this.indicadorConfig.nombreCorto"
+        ></app-grafico-indicador>
     </div>
 </div>
