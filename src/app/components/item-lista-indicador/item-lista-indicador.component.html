@@ -1,5 +1,9 @@
-<div class="d-flex justify-content-between">
-    <span>{{ this.indicador.nombre }}</span>
+<div class="d-flex justify-content-between align-items-center">
+    <div>
+        <span>{{ this.indicador.nombre }}</span>
+        <br />
+        <small class="text-primary">{{ this.indicador.unidadDeMedida | titlecase }}</small>
+    </div>
 
     <div>
         <a [routerLink]="['/historial', this.indicador.id]">

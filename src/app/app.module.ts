@@ -13,6 +13,7 @@ import { InfoIndicadorComponent } from './components/info-indicador/info-indicad
 import { ValorIndicadorComponent } from './components/valor-indicador/valor-indicador.component';
 import { NgChartsModule } from 'ng2-charts';
 import { GraficoIndicadorComponent } from './components/grafico-indicador/grafico-indicador.component';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { GraficoIndicadorComponent } from './components/grafico-indicador/grafic
         InfoIndicadorComponent,
         ValorIndicadorComponent,
         GraficoIndicadorComponent,
+        AboutComponent,
     ],
     imports: [HttpClientModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule, NgbModule, NgChartsModule],
     providers: [HttpClientModule],

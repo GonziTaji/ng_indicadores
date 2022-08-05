@@ -1,0 +1,25 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h2 class="modal-title" id="modal-basic-title" style="margin-bottom: 0">Acerca de</h2>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body">
+        <h3>Prueba Desarrollador Front End</h3>
+        <p>Para postulación a puesto de desarrollador Angular en 3IT</p>
+
+        <h4>Construido por Gonzalo Tajmuch</h4>
+
+        <a href="https://github.com/GonziTaji" target="_blank"> <i class="bi bi-github"></i> GonziTaji </a>
+
+        <br />
+
+        <small class="fst-italic text-muted">Agosto 2022</small>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" (click)="modal.dismiss()">Cerrar</button>
+    </div>
+</ng-template>
+
+<i style="cursor: pointer" class="bi bi-file-person text-primary" (click)="openModal(content)"></i>

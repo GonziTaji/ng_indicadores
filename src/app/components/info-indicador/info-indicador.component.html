@@ -1,27 +1,29 @@
-<div class="sticky-top bg-light shadow-sm py-2 px-3 d-flex justify-content-between">
-    <a routerLink="/" class="text-primary"> <i class="bi bi-caret-left"></i> Indicadores </a>
+<div class="header sticky-top bg-light shadow-sm py-2 px-3 d-flex justify-content-between">
+    <a routerLink="/" class="text-primary"> <i class="bi bi-house-door"></i></a>
 
-    <a [routerLink]="['/historico', this.indicadorId]">
+    <span>INFORMACIÓN</span>
+
+    <a [routerLink]="['/historial', this.indicadorId]">
         <i class="bi bi-clock-history text-primary p-2"></i>
     </a>
 </div>
 
 <div class="container px-2">
     <div class="text-center d-flex flex-column justify-content-center">
-        <h1 class="pt-4">
+        <h2 class="pt-2">
             {{ this.indicadorConfig.nombre | uppercase }}
             <br />
             <small>({{ this.indicadorConfig.nombreCorto | uppercase }})</small>
-        </h1>
+        </h2>
 
-        <span class="display-1">
+        <span class="display-2">
             <app-valor-indicador
                 [udmIndicador]="this.indicadorConfig.unidadDeMedida"
                 [valorIndicador]="this.primerDato.valor"
             ></app-valor-indicador>
         </span>
 
-        <div class="container form-grid">
+        <div class="px-2 form-grid">
             <span>Nombre</span>
             <input disabled type="text" [value]="this.indicadorConfig.nombre" />
 

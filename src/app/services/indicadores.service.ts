@@ -121,26 +121,6 @@ export class IndicadoresService {
         return this.extractValues(response);
     }
 
-    async getListaIndicadores() {
-        const data: { [indicadorId: string]: Indicador } = {} as any;
-        for (const [indicadorId, indicadorConfig] of Object.entries(this.configIndicadores)) {
-            const { nombre, nombreCorto } = indicadorConfig;
-            const response = await this.makeHttpGetRequest<RespuestaApi>(this.getApiUrl(indicadorId));
-
-            const dataIndicador = this.extractValues(response)[0];
-
-            data[indicadorId] = {
-                nombre,
-                nombreCorto,
-                indicadorId,
-                fecha: dataIndicador.fecha,
-                valor: dataIndicador.valor,
-            };
-        }
-
-        return data;
-    }
-
     private getApiUrl(indicadorId: string, endpointTail = '') {
         let url =
             'https://api.cmfchile.cl/api-sbifv3/recursos_api/' +
