@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between">
+    <span>{{ this.indicadorData.nombre }}</span>
+
+    <div>
+        <a [routerLink]="['/historial', this.indicadorData.indicadorId]">
+            <i class="bi bi-clock-history text-primary p-2"></i>
+        </a>
+
+        <a [routerLink]="['/detalles', this.indicadorData.indicadorId]">
+            <i class="bi bi-info-circle text-primary ps-2"></i>
+        </a>
+    </div>
+</div>

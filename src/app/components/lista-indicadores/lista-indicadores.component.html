@@ -1,0 +1,13 @@
+<div class="sticky-top bg-light shadow-sm py-2 px-3 d-flex justify-content-between">
+    <i class="bi bi-list text-primary"></i>
+
+    Indicadores
+
+    <i class="bi bi-search text-primary"></i>
+</div>
+
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let indicadorId of this.listaIndicadoresId">
+        <app-item-lista-indicador [indicadorData]="dataIndicadores[indicadorId]"></app-item-lista-indicador>
+    </li>
+</ul>
