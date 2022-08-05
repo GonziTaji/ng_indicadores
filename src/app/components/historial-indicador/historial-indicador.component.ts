@@ -41,6 +41,6 @@ export class HistorialIndicadorComponent implements OnInit, OnDestroy {
 
         this.indicadorId = _indicadorId;
 
-        this.dataHistorica = await this.indicadoresService.getHistorialIndicador(this.indicadorId);
+        this.dataHistorica = await this.indicadoresService.getHistorico(this.indicadorId);
     }
 }

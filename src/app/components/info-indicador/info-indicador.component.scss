@@ -1,0 +1,17 @@
+.form-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 0.6rem;
+    padding-top: 1.5rem;
+
+    span {
+        text-align: left;
+        padding-right: 1rem;
+        vertical-align: bottom;
+    }
+
+    input {
+        text-align: right;
+        // max-width: 10rem;
+    }
+}

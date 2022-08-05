@@ -14,36 +14,31 @@ export class IndicadoresService {
             id: 'dolar',
             nombreCorto: 'dolar',
             nombre: 'Dólar Observado',
+            unidadDeMedida: 'pesos',
         },
         euro: {
             id: 'euro',
             nombreCorto: 'euro',
             nombre: 'Euro',
+            unidadDeMedida: 'pesos',
         },
         ipc: {
             id: 'ipc',
             nombreCorto: 'ipc',
             nombre: 'Indice de Precios al Consumidor',
-        },
-        tip: {
-            id: 'tip',
-            nombreCorto: 'tip',
-            nombre: 'Tasa de Interés Promedio',
-        },
-        tmc: {
-            id: 'tmc',
-            nombreCorto: 'tmc',
-            nombre: 'Tasa de Interés Máxima Convencional',
+            unidadDeMedida: 'porcentaje',
         },
         uf: {
             id: 'uf',
             nombreCorto: 'uf',
             nombre: 'Unidad de Fomento',
+            unidadDeMedida: 'pesos',
         },
         utm: {
             id: 'utm',
             nombreCorto: 'utm',
             nombre: 'Unidad Tributaria Mensual',
+            unidadDeMedida: 'pesos',
         },
     });
 
@@ -53,38 +48,77 @@ export class IndicadoresService {
         return this.configIndicadores[indicadorId];
     }
 
-    async getHistorialIndicador(indicadorId: string) {
-        let response: RespuestaApi;
-
+    async getGrafico(indicadorId: string) {
         switch (indicadorId) {
             case 'dolar':
-                const diasAConsultar = 30;
-                const fechaDesde = new Date();
+            case 'euro':
+            case 'uf':
+                return this.getUltimosDias(indicadorId, 10);
 
-                fechaDesde.setDate(fechaDesde.getDate() - diasAConsultar);
-
-                const year = fechaDesde.getFullYear();
-                const month = addLeadingZeroInNeeded(fechaDesde.getMonth() + 1);
-                const day = addLeadingZeroInNeeded(fechaDesde.getDate());
-
-                const url = this.getApiUrl(indicadorId, 'posteriores/' + [year, month, 'dias', day].join('/'));
-
-                response = await this.makeHttpGetRequest<RespuestaApi>(url);
-                break;
+            case 'ipc':
+            case 'utm':
+                return this.getUltimos12Meses(indicadorId);
 
             default:
-                response = await this.makeHttpGetRequest<RespuestaApi>(this.getApiUrl(indicadorId));
-                break;
+                throw 'Indicador ' + indicadorId + ' no configurado.';
         }
+    }
 
-        return this.extractValues(response).map((diaHistorico) => ({
-            fecha: diaHistorico.Fecha,
-            valor: parseFloat(diaHistorico.Valor),
-        }));
+    async getHistorico(indicadorId: string) {
+        switch (indicadorId) {
+            case 'dolar':
+            case 'euro':
+            case 'uf':
+                return this.getUltimosDias(indicadorId, 30);
 
-        function addLeadingZeroInNeeded(n: number) {
-            return n > 9 ? n : `0${n}`;
+            case 'ipc':
+            case 'utm':
+                return this.getAnioActual(indicadorId);
+
+            default:
+                throw 'Indicador ' + indicadorId + ' no configurado.';
         }
+    }
+
+    private async getAnioActual(indicadorId: string) {
+        const year = new Date().getFullYear();
+
+        const url = this.getApiUrl(indicadorId, year.toString());
+
+        const response = await this.makeHttpGetRequest<RespuestaApi>(url);
+
+        return this.extractValues(response);
+    }
+
+    private async getUltimos12Meses(indicadorId: string) {
+        const fechaDesde = new Date();
+
+        fechaDesde.setFullYear(fechaDesde.getFullYear() - 1);
+
+        const year = fechaDesde.getFullYear();
+        const month = this.addLeadingZeroInNeeded(fechaDesde.getMonth() + 1);
+
+        const url = this.getApiUrl(indicadorId, `posteriores/${year}/${month}`);
+
+        const response = await this.makeHttpGetRequest<RespuestaApi>(url);
+
+        return this.extractValues(response);
+    }
+
+    private async getUltimosDias(indicadorId: string, cantidadDias: number) {
+        const fechaDesde = new Date();
+
+        fechaDesde.setDate(fechaDesde.getDate() - cantidadDias);
+
+        const year = fechaDesde.getFullYear();
+        const month = this.addLeadingZeroInNeeded(fechaDesde.getMonth() + 1);
+        const day = this.addLeadingZeroInNeeded(fechaDesde.getDate());
+
+        const url = this.getApiUrl(indicadorId, 'posteriores/' + [year, month, 'dias', day].join('/'));
+
+        const response = await this.makeHttpGetRequest<RespuestaApi>(url);
+
+        return this.extractValues(response);
     }
 
     async getListaIndicadores() {
@@ -99,8 +133,8 @@ export class IndicadoresService {
                 nombre,
                 nombreCorto,
                 indicadorId,
-                fecha: new Date(dataIndicador.Fecha),
-                valor: dataIndicador.Valor,
+                fecha: dataIndicador.fecha,
+                valor: dataIndicador.valor,
             };
         }
 
@@ -125,6 +159,17 @@ export class IndicadoresService {
     private extractValues(response: RespuestaApi) {
         console.log({ response });
         console.log({ extracted: Object.values(response)[0] });
-        return Object.values(response)[0];
+        return Object.values(response)[0].map((diaHistorico) => ({
+            fecha: diaHistorico.Fecha,
+            valor: this.currencyFormat(diaHistorico.Valor),
+        }));
+    }
+
+    private currencyFormat(input: string) {
+        return parseFloat(input.replace('.', '').replace(',', '.'));
+    }
+
+    private addLeadingZeroInNeeded(n: number) {
+        return n > 9 ? n : `0${n}`;
     }
 }

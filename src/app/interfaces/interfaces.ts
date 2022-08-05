@@ -1,6 +1,6 @@
 export interface Indicador {
-    valor: string;
-    fecha: Date;
+    valor: number;
+    fecha: string;
     nombre: string;
     nombreCorto: string;
     indicadorId: string;
@@ -10,6 +10,7 @@ export interface IndicadorConfig {
     id: string;
     nombreCorto: string;
     nombre: string;
+    unidadDeMedida: 'pesos' | 'porcentaje';
 }
 
 export interface DiaHistorico {

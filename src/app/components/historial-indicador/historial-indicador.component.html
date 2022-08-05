@@ -6,7 +6,7 @@
     <div class="text-center">
         {{ this.indicadorConfig.nombre }} ({{ this.indicadorConfig.nombreCorto | uppercase }})
         <br />
-        <small>Histórico (Últimos. 30 días)</small>
+        <small>Histórico</small>
     </div>
 
     <a [routerLink]="['/info', this.indicadorId]">
@@ -16,14 +16,15 @@
 
 <ul class="list-group">
     <li class="list-group-item" *ngFor="let diaHistorico of this.dataHistorica">
-        <div class="mx-auto d-flex justify-content-between" style="max-width: 500px">
+        <div class="mx-auto d-flex justify-content-between px-4" style="max-width: 500px">
             <span>
-                {{ diaHistorico.fecha | date: 'shortDate' }}
+                {{ diaHistorico.fecha | date: 'yyyy-MM-dd' }}
             </span>
 
-            <span>
-                {{ diaHistorico.valor | currency }}
-            </span>
+            <app-valor-indicador
+                [udmIndicador]="this.indicadorConfig.unidadDeMedida"
+                [valorIndicador]="diaHistorico.valor"
+            ></app-valor-indicador>
         </div>
     </li>
 </ul>

@@ -10,6 +10,7 @@ import { ItemListaIndicadorComponent } from './components/item-lista-indicador/i
 import { HttpClientModule } from '@angular/common/http';
 import { HistorialIndicadorComponent } from './components/historial-indicador/historial-indicador.component';
 import { InfoIndicadorComponent } from './components/info-indicador/info-indicador.component';
+import { ValorIndicadorComponent } from './components/valor-indicador/valor-indicador.component';
 
 @NgModule({
     declarations: [
@@ -18,14 +19,9 @@ import { InfoIndicadorComponent } from './components/info-indicador/info-indicad
         ItemListaIndicadorComponent,
         HistorialIndicadorComponent,
         InfoIndicadorComponent,
+        ValorIndicadorComponent,
     ],
-    imports: [
-        HttpClientModule,
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        NgbModule,
-    ],
+    imports: [HttpClientModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule, NgbModule],
     providers: [HttpClientModule],
     bootstrap: [AppComponent],
 })

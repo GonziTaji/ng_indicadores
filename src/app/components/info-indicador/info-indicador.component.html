@@ -1,1 +1,33 @@
-<p>info-indicador works!</p>
+<div class="sticky-top bg-light shadow-sm py-2 px-3 d-flex justify-content-between">
+    <a routerLink="/" class="text-primary"> <i class="bi bi-caret-left"></i> Indicadores </a>
+
+    <a [routerLink]="['/historico', this.indicadorId]">
+        <i class="bi bi-clock-history text-primary p-2"></i>
+    </a>
+</div>
+
+<div>
+    <div class="text-center d-flex flex-column justify-content-center">
+        <h1 class="pt-4">
+            {{ this.indicadorConfig.nombre | uppercase }}
+            <br />
+            <small>({{ this.indicadorConfig.nombreCorto | uppercase }})</small>
+        </h1>
+
+        <span class="display-1">
+            <app-valor-indicador
+                [udmIndicador]="this.indicadorConfig.unidadDeMedida"
+                [valorIndicador]="this.primerDato.valor"
+            ></app-valor-indicador>
+        </span>
+
+        <div class="container form-grid">
+            <span>Nombre</span>
+            <input disabled type="text" [value]="this.indicadorConfig.nombre" />
+            <span>Fecha</span>
+            <input disabled type="text" [value]="this.primerDato.fecha | date: 'yyyy-MM-dd'" />
+            <span>Unidad de Medida</span>
+            <input disabled type="text" [value]="this.indicadorConfig.unidadDeMedida | titlecase" />
+        </div>
+    </div>
+</div>

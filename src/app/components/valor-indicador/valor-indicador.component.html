@@ -1,0 +1,7 @@
+<span *ngIf="this.udmIndicador === 'pesos'; else porcentaje">
+    {{ this.valorIndicador | currency }}
+</span>
+
+<ng-template #porcentaje>
+    <span> {{ this.valorIndicador }} % </span>
+</ng-template>

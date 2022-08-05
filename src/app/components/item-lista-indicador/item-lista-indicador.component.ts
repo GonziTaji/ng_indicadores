@@ -12,6 +12,7 @@ export class ItemListaIndicadorComponent implements OnInit {
         id: '',
         nombre: '',
         nombreCorto: '',
+        unidadDeMedida: 'pesos',
     };
 
     constructor() {}
